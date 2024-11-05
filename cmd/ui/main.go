@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/common-nighthawk/go-figure"
 	"github.com/happsie/roundabout/internal"
 	"log/slog"
 	"net/http"
@@ -12,8 +13,10 @@ import (
 )
 
 func main() {
+	roundaboutFigure := figure.NewColorFigure("Roundabout", "rounded", "blue", true)
+	roundaboutFigure.Print()
 	slog.SetLogLoggerLevel(slog.LevelDebug)
-	slog.Info("roundabout is starting up!")
+	slog.Info("roundabout is starting up")
 	conf, err := internal.LoadConfig()
 	if err != nil {
 		slog.Error("could not load config", "error", err)
@@ -33,6 +36,7 @@ func main() {
 			os.Exit(1)
 		}
 	}()
+	// TODO: Start web server with UI
 	quitChannel := make(chan os.Signal, 1)
 	signal.Notify(quitChannel, syscall.SIGINT, syscall.SIGTERM)
 	<-quitChannel
