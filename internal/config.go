@@ -18,11 +18,10 @@ type Service struct {
 	TargetHost string   `yaml:"targetHost"`
 }
 
-func LoadConfig() (*Config, error) {
+func LoadConfig(path string) (*Config, error) {
 	slog.Debug("reading config.yml")
-	f, err := os.ReadFile("config.yml")
+	f, err := os.ReadFile(path)
 	if err != nil {
-		// TODO: Handle so that we create a default config if configuration does not exists
 		return nil, err
 	}
 	conf := &Config{}
