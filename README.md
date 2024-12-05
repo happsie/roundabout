@@ -3,7 +3,12 @@
 ## Usage
 
 1. Create a configuration file using `.yml`, see example configuration as an example
-2. Start Roundabout `roundabout start --config=config.yml`
+2. Start Roundabout `roundabout start`
+
+## Options
+
+* loglevel - Possible values are info, debug and error
+* config - specify the configuration file path (default config.yml)
 
 ## Example config
 

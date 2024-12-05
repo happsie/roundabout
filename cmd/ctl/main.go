@@ -2,15 +2,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/common-nighthawk/go-figure"
-	"github.com/happsie/roundabout/internal"
-	"github.com/urfave/cli/v2"
 	"log/slog"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/common-nighthawk/go-figure"
+	"github.com/happsie/roundabout/internal"
+	"github.com/urfave/cli/v2"
 )
 
 func main() {
@@ -29,11 +30,16 @@ func main() {
 						Value:    "config.yml",
 						Required: false,
 					},
+					&cli.StringFlag{
+						Name:     "loglevel",
+						Value:    "info",
+						Required: false,
+					},
 				},
 				Action: func(context *cli.Context) error {
 					roundaboutFigure := figure.NewColorFigure("Roundabout", "rounded", "blue", true)
 					roundaboutFigure.Print()
-					slog.SetLogLoggerLevel(slog.LevelDebug)
+					setLogLevel(context.String("loglevel"))
 					slog.Info("roundabout is starting up")
 					conf, err := internal.LoadConfig(context.String("config"))
 					if err != nil {
@@ -79,4 +85,15 @@ func verifyHealth(conf *internal.Config) error {
 	}
 	slog.Info("roundabout reverse proxy started correctly", "port", conf.Port)
 	return nil
+}
+
+func setLogLevel(logLevel string) {
+	switch logLevel {
+	case "info":
+		slog.SetLogLoggerLevel(slog.LevelInfo)
+	case "debug":
+		slog.SetLogLoggerLevel(slog.LevelDebug)
+	case "error":
+		slog.SetLogLoggerLevel(slog.LevelError)
+	}
 }
