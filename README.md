@@ -7,7 +7,7 @@
 
 ## Example config
 
-```yaml
+```
 port: 8090
 defaultTargetHost: "google.com"
 services: [
